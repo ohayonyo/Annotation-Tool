@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %} Upload image page {% endblock %}
 {% block content %}
+{% load static %}
 <div style="text-align: center; font-size: 24px;">
   <p>Upload image page</p>
 </div>
@@ -15,26 +16,6 @@
     <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
 </div>
 
-<script>
-    function previewImage(event) {
-        var input = event.target;
-        var preview = document.getElementById('preview');
-        var previewContainer = document.getElementById('imagePreview');
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                previewContainer.style.display = 'block';
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            preview.src = '';
-            previewContainer.style.display = 'none';
-        }
-    }
-</script>
+<script src="{% static 'js/upload_image.js' %}"></script>
 
 {% endblock %}
