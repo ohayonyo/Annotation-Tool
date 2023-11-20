@@ -4,10 +4,37 @@
   <p>Upload image page</p>
 </div>
 
-<form action="/upload" method="post" enctype="multipart/form-data">
+<form enctype="multipart/form-data" id="uploadForm">
+    {% csrf_token %}
     <label for="imageInput">Select an image:</label>
-    <input type="file" id="imageInput" name="image" accept="image/*">
-    <input type="submit" value="Upload">
+    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
 </form>
+
+<div id="imagePreview" style="display:none;">
+    <p>Preview:</p>
+    <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
+</div>
+
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('preview');
+        var previewContainer = document.getElementById('imagePreview');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                previewContainer.style.display = 'block';
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '';
+            previewContainer.style.display = 'none';
+        }
+    }
+</script>
 
 {% endblock %}
