@@ -5,20 +5,23 @@
   <p>Upload image page</p>
 </div>
 
-<div enctype="multipart/form-data" id="uploadForm">
-  {% csrf_token %}
-  <label for="imageInput">Select an image:</label>
-  <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
-  <button id="submitButton" onclick="updateImage()" style="border: solid 1px; background-color: lightgray;">submit</button>
-  <button onclick="updateImage()">clear</button>
+<div style="margin-left: 10%;">
+  <div enctype="multipart/form-data" id="uploadForm">
+    {% csrf_token %}
+    <label for="imageInput">Select an image:</label>
+    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
+    <button id="submitButton" class="my-button" onclick="updateImage()" style="border: solid 1px; background-color: lightgray;">submit</button>
+    <button onclick="updateImage()" style="border: solid 1px; background-color: lightgray;">clear</button>
+  </div>
+
+  <canvas id="myCanvas" width="800" height="600">
+    <div id="imagePreview" style="display:none;">
+      <p>Preview:</p>
+      <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
+    </div>
+  </canvas>
 </div>
 
-<canvas id="myCanvas" width="800" height="600">
-  <div id="imagePreview" style="display:none;">
-    <p>Preview:</p>
-    <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
-  </div>
-</canvas>
 
 <script>
 var canvas = document.getElementById('myCanvas');
@@ -93,54 +96,6 @@ function updateImage() {
 }
 
 </script>
-
-<!-- <canvas id="annotationCanvas" width="800" height="600"></canvas>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var canvas = document.getElementById('annotationCanvas');
-      var context = canvas.getContext('2d');
-      var image = new Image();
-
-      // Replace 'path/to/your/image.jpg' with the actual path to your image file.
-      image.src = 'path/to/your/image.jpg';
-
-      image.onload = function () {
-        context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      };
-
-      var isDrawing = false;
-
-      canvas.addEventListener('mousedown', function (e) {
-        isDrawing = true;
-        draw(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop, false);
-      });
-
-      canvas.addEventListener('mousemove', function (e) {
-        if (isDrawing) {
-          draw(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop, true);
-        }
-      });
-
-      canvas.addEventListener('mouseup', function () {
-        isDrawing = false;
-        context.beginPath();
-      });
-
-      function draw(x, y, isDrawing) {
-        if (!isDrawing) {
-          context.beginPath();
-        }
-        context.lineWidth = 2;
-        context.lineCap = 'round';
-        context.strokeStyle = '#ff0000'; // Red color for annotation lines
-
-        context.lineTo(x, y);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(x, y);
-      }
-    });
-  </script> -->
 
 <script src="{% static 'js/upload_image.js' %}"></script>
 
