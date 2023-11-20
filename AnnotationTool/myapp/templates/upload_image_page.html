@@ -5,72 +5,94 @@
   <p>Upload image page</p>
 </div>
 
-<form enctype="multipart/form-data" id="uploadForm">
-    {% csrf_token %}
-    <label for="imageInput">Select an image:</label>
-    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
-</form>
-
-<div id="imagePreview" style="display:none;">
-    <p>Preview:</p>
-    <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
+<div enctype="multipart/form-data" id="uploadForm">
+  {% csrf_token %}
+  <label for="imageInput">Select an image:</label>
+  <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
+  <button id="submitButton" onclick="updateImage()" style="border: solid 1px; background-color: lightgray;">submit</button>
+  <button onclick="updateImage()">clear</button>
 </div>
 
 <canvas id="myCanvas" width="800" height="600">
-
-  
+  <div id="imagePreview" style="display:none;">
+    <p>Preview:</p>
+    <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
+  </div>
 </canvas>
 
 <script>
-  // Get the canvas element and its 2d context
-  var canvas = document.getElementById('myCanvas');
-  var context = canvas.getContext('2d');
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var image = document.getElementById('preview');
+var rectPoints = {
+  x1: 0,
+  y1: 0,
+  x2: 0,
+  y2: 0
+};
+var firstPointClicked = false;
 
-  // Get the image element
-  var image = document.getElementById('preview');
+function previewImage(event) {
+  var input = event.target;
+  var reader = new FileReader();
 
-  // Draw the image on the canvas
-  context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-  // Initialize rectangle points
-  var rectPoints = {
-    x1: 0,
-    y1: 0,
-    x2: 0,
-    y2: 0
+  reader.onload = function(){
+    image.src = reader.result;
   };
+  image.onload = function() {
+    context.clearRect(0, 0, canvas.width, canvas.height); 
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-  // Flag to track whether the first or second point is being clicked
-  var firstPointClicked = false;
-
-  // Event listener for mouse clicks on the canvas
-  canvas.addEventListener('click', function(event) {
-    // Get the mouse coordinates relative to the canvas
-    var rect = canvas.getBoundingClientRect();
-    var mouseX = event.clientX - rect.left;
-    var mouseY = event.clientY - rect.top;
-
-    // Update rectangle points based on whether it's the first or second point
-    if (!firstPointClicked) {
-      rectPoints.x1 = mouseX;
-      rectPoints.y1 = mouseY;
-      firstPointClicked = true;
-    } else {
-      rectPoints.x2 = mouseX;
-      rectPoints.y2 = mouseY;
-
-      // Draw the rectangle on the canvas
-      context.strokeStyle = 'red'; // Set the stroke color
-      context.lineWidth = 2;      // Set the stroke width
+    if (firstPointClicked) {
+      context.strokeStyle = 'red';
+      context.lineWidth = 2;
       context.rect(rectPoints.x1, rectPoints.y1, rectPoints.x2 - rectPoints.x1, rectPoints.y2 - rectPoints.y1);
       context.stroke();
-
-      // Reset for the next rectangle
-      firstPointClicked = false;
     }
-  });
-</script>
+  };
 
+
+  reader.readAsDataURL(input.files[0]);
+  document.getElementById('imagePreview').style.display = 'block';
+}
+
+canvas.addEventListener('click', function(event) {
+  var rect = canvas.getBoundingClientRect();
+  var mouseX = event.clientX - rect.left;
+  var mouseY = event.clientY - rect.top;
+
+  
+  if (!firstPointClicked) {  
+    context.clearRect(0, 0, canvas.width, canvas.height); 
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    rectPoints.x1 = mouseX;
+    rectPoints.y1 = mouseY;
+    firstPointClicked = true;
+  } else {
+    rectPoints.x2 = mouseX;
+    rectPoints.y2 = mouseY;
+
+  
+    context.clearRect(0, 0, canvas.width, canvas.height); 
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    context.strokeStyle = 'red';
+    context.lineWidth = 2;
+    context.rect(rectPoints.x1, rectPoints.y1, rectPoints.x2 - rectPoints.x1, rectPoints.y2 - rectPoints.y1);
+    context.stroke();
+
+    firstPointClicked = false;
+  }
+});
+
+document.getElementById('imageInput').addEventListener('change', f);
+
+function updateImage() {
+  context.clearRect(0, 0, canvas.width, canvas.height); 
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+}
+
+</script>
 
 <!-- <canvas id="annotationCanvas" width="800" height="600"></canvas>
   <script>
