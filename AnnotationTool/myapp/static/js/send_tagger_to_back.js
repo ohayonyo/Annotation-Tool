@@ -1,6 +1,7 @@
 function sendDataToBackend() {
   console.log('in send data function');
   const imageInput = document.getElementById('imageInput');
+  const tagInput = document.getElementById('tagInput');
   const file = imageInput.files[0];
 
   if (file) {
@@ -14,6 +15,8 @@ function sendDataToBackend() {
 
       formData.append('image', blob);
       formData.append('points', JSON.stringify(points));
+      formData.append('tagged', tagInput.value);
+  
       const csrfToken = getCookie('csrftoken');
 
       fetch('http://127.0.0.1:8000/myapp/save_image_tagger/', {
@@ -26,14 +29,23 @@ function sendDataToBackend() {
       .then(response => response.json())
       .then(data => {
           console.log('Data saved:', data);
+         
       })
       .catch(error => {
           console.error('Error:', error);
       });
       clearCanvas();
+      tagInput.value='';
   } else {
       console.error('No file selected.');
   }
+}
+
+function resetInputValue(inputId) {
+  var inputElement = document.getElementById(inputId);
+  if (inputElement) {
+      inputElement.value = '';
+  } 
 }
 
 function getCookie(name) {
