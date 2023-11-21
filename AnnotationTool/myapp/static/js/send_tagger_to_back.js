@@ -34,7 +34,7 @@ function sendDataToBackend() {
       .catch(error => {
           console.error('Error:', error);
       });
-      clearCanvas();
+      // clearCanvas();
       tagInput.value='';
   } else {
       console.error('No file selected.');
