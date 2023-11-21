@@ -10,7 +10,9 @@ function sendDataToBackend() {
       };
 
       const formData = new FormData();
-      formData.append('image', file);
+      const blob = new Blob([file], { type: file.type }); 
+
+      formData.append('image', blob);
       formData.append('points', JSON.stringify(points));
       const csrfToken = getCookie('csrftoken');
 
