@@ -27,6 +27,7 @@ def create_db():
             CREATE TABLE IF NOT EXISTS image_tags (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 image BLOB,
+                tag_name TEXT,
                 x1_coordinate FLOAT,
                 y1_coordinate FLOAT,
                 x2_coordinate FLOAT,
@@ -40,20 +41,19 @@ def create_db():
             close_connection(conn)
 
 
-def save_image_tagger(image_file, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate):
+def save_image_tagger(image_file, tag_name, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate):
     conn, cursor = connect_to_db()
 
     if conn and cursor:
         try:
             image_data = image_file.read()
             insert_data_sql = '''
-            INSERT INTO image_tags (image, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate)
-            VALUES (?, ?, ?, ?, ?);
+            INSERT INTO image_tags (image, tag_name, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate)
+            VALUES (?, ?, ?, ?, ?, ?);
             '''
-            cursor.execute(insert_data_sql, (image_data, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate))
+            cursor.execute(insert_data_sql, (image_data, tag_name, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate))
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
         finally:
             conn.commit()
             close_connection(conn)
-
