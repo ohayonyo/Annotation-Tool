@@ -1,6 +1,8 @@
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 var image = document.getElementById('preview');
+var tagInput = document.getElementById('tagInput');
+
 var rectPoints = {
   x1: 0,
   y1: 0,
@@ -8,6 +10,10 @@ var rectPoints = {
   y2: 0
 };
 var firstPointClicked = false;
+
+
+// Set the font and text to be displayed
+
 
 
 canvas.addEventListener('click', function(event) {
@@ -32,6 +38,13 @@ canvas.addEventListener('click', function(event) {
     context.rect(rectPoints.x1, rectPoints.y1, rectPoints.x2 - rectPoints.x1, rectPoints.y2 - rectPoints.y1);
     context.stroke();
     firstPointClicked = false;
+
+    context.font = '30px Arial';
+    context.fillStyle = 'red';
+    var xBoxText = rectPoints.x1 < rectPoints.x2 ? rectPoints.x1 + 30 : rectPoints.x2 + 30;
+    var yBoxText = rectPoints.y1 < rectPoints.y2 ? rectPoints.y1 + 30 : rectPoints.y2 + 30;
+  
+    context.fillText(tagInput.value, xBoxText, yBoxText); // Adjust the position as needed
   }
 });
 
