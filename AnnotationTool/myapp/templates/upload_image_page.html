@@ -10,7 +10,7 @@
     {% csrf_token %}
     <label for="imageInput">Select an image:</label>
     <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
-    <button id="submitButton" class="my-button" onclick="updateImage()">submit</button>
+    <button id="submitButton" class="my-button" onclick="sendDataToBackend()">submit</button>
     <button onclick="updateImage()" class="my-button">clear</button>
   </div>
 
@@ -24,7 +24,8 @@
 
 
 <script src="{% static 'js/make_rectangles.js' %}"></script>
-
 <script src="{% static 'js/upload_image.js' %}"></script>
+<script src="{% static 'js/send_tagger_to_back.js' %}"></script>
+
 
 {% endblock %}
