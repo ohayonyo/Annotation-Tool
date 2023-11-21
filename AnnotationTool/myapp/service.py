@@ -12,7 +12,5 @@ def save_image_tagger(request):
         points = json.loads(points_data)
         point1 = points['point1']
         point2 = points['point2']
-        return save_image_tagger_back(point1=point1, point2=point2, image=image_file)
+        return save_image_tagger_back(image=image_file, point1=point1, point2=point2)
     return JsonResponse({'status': 'Invalid request method.'})
-
-
