@@ -30,6 +30,7 @@ function sendDataToBackend() {
       .catch(error => {
           console.error('Error:', error);
       });
+      clearCanvas();
   } else {
       console.error('No file selected.');
   }
@@ -39,4 +40,21 @@ function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function clearCanvas() {
+  var canvas = document.getElementById('myCanvas');
+  var context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  resetFileInput();
+}
+
+function resetFileInput() {
+  var originalInput = document.getElementById('imageInput');
+  var newInput = document.createElement('input');
+
+  Array.from(originalInput.attributes).forEach(attr => {
+    newInput.setAttribute(attr.name, attr.value);
+  });
+  originalInput.parentNode.replaceChild(newInput, originalInput);
 }
