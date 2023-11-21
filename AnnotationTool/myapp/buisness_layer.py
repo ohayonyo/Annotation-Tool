@@ -6,6 +6,7 @@ def save_image_tagger(point1, point2, image):
     y1_coordinate = point1['y']
     x2_coordinate = point2['x']
     y2_coordinate = point2['y']
+
     print("image:")
     print(image)
     print("(" + str(x1_coordinate) + "," + str(y1_coordinate) + ')')

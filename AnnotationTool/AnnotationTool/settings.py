@@ -21,9 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()  # take environment variables from .env.
+
+load_dotenv()
 SECRET_KEY = os.environ['SECRET_KEY']
+DB_ENGINE = os.environ['DB_ENGINE']
+DB_NAME = os.environ['DB_NAME']
+DB_USER = os.environ['DB_USER']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+DB_HOST = os.environ['DB_HOST']
+DB_PORT = os.environ['DB_PORT']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -82,6 +89,16 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # 'default': {
+    #     'ENGINE': DB_ENGINE,
+    #     'NAME': BASE_DIR / DB_NAME,
+    #     'USER': DB_USER,
+    #     'PASSWORD': DB_PASSWORD,
+    #     'HOST': DB_HOST,
+    #     'PORT': DB_PORT,
+    # }
+
 }
 
 
