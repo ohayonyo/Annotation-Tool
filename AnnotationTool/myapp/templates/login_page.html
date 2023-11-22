@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="../static/css/login_page.css">
+    <style>
+      body{
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+
+</head>
+<body>
+    <div id="login_page">
+        <div class='LoginPage_Screen'>
+            <div style="margin-right: 110px;">
+                <h2 class='active h2' style="font-weight: 400; color: white;"> sign in </h2>
+                <h2 class='nonactive h2'> <a href="/register" style="text-decoration: none; color: #1161ed;">sign up</a></h2>
+            </div>
+            <div class='LoginPage_Form'>
+                <input 
+                    type="text" 
+                    class='LoginPage_text' 
+                    value=""
+                    name="username"
+                    onchange="(e)=>setUsername(e.target.value)"
+                    required
+                ></input>
+                <span class='LoginRegister_Span text_span span' style="margin-right: 100%;">username</span>
+                <input 
+                    type="password" 
+                    class='LoginPage_text'
+                    value=""
+                    name="password"
+                    onchange="(e)=>setPassword(e.target.value)"
+                    required>
+                </input>
+                <span class='LoginRegister_Span text_span span' style="margin-right: 100%;">password</span>
+                <br></br>
+                <div class='keep_me_signed' style="margin-right: 160px;">
+                    <input type="checkbox" id="checkbox-1-1" class='LoginPage_RememberMeCheckbox' />
+                    <label for="checkbox-1-1" class='LoginPage_Label' style="color: white;">Keep me Signed in</label>
+                </div>
+                <button class='LoginPage_SigninButton' onclick="login()">
+                    Sign In
+                </button>
+                <div class='dont_have_an_account'>
+                    <p style="color: white;">Don't have an account? <a href="/register" style="color: white; font-size: 20px;">sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/login.js"></script>
+
+</body>
+</html>
