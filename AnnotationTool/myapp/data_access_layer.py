@@ -24,11 +24,21 @@ def create_db():
 
     if conn and cursor:
         try:
-            create_images_table = '''
-            CREATE TABLE IF NOT EXISTS images_tb (
-                image_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                image BLOB
+            create_users_table = '''
+            CREATE TABLE IF NOT EXISTS users_tb (
+                username TEXT PRIMARY KEY,
+                password TEXT,
+                is_active INTEGER DEFAULT 0
             );
+            '''
+
+            create_images_table = '''
+                CREATE TABLE IF NOT EXISTS images_tb (
+                    username TEXT,
+                    image_index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    image BLOB,
+                    FOREIGN KEY (username) REFERENCES users_tb(username)
+                );
             '''
 
             create_tags_table = '''
@@ -45,17 +55,10 @@ def create_db():
             );
             '''
 
-            create_users_table = '''
-            CREATE TABLE IF NOT EXISTS users_tb (
-                username TEXT PRIMARY KEY,
-                password TEXT,
-                is_active INTEGER DEFAULT 0
-            );
-            '''
-
+            cursor.execute(create_users_table)
             cursor.execute(create_images_table)
             cursor.execute(create_tags_table)
-            cursor.execute(create_users_table)
+
         except sqlite3.Error as e:
             print('Error creating tables')
             print(f"SQLite error: {e}")
@@ -88,13 +91,15 @@ def save_image_tags(image, tag_name, coordinates):
             close_connection(conn)
 
 
-def save_image(image_file):
+def save_image(username, image_file):
     conn, cursor = connect_to_db()
 
     if conn and cursor:
         try:
             image_data = image_file.read()
-            cursor.execute("INSERT INTO images_tb (image) VALUES (?)", (image_data,))
+            cursor.execute("""
+                INSERT INTO images_tb (username, image) VALUES (?, ?)
+            """, (username, image_data))
             image_index = cursor.lastrowid
             return image_index
         except sqlite3.Error as e:

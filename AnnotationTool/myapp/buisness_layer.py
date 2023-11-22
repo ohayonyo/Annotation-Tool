@@ -13,8 +13,8 @@ import bcrypt
 create_db()
 
 
-def save_image_tags(image_file, tags_with_coordinates):
-    image_index_row_db = save_image_db(image_file)
+def save_image_tags(username, image_file, tags_with_coordinates):
+    image_index_row_db = save_image_db(username, image_file)
     if image_index_row_db is None:
         return JsonResponse({'status': "couldn't save the image."})
     tags_with_coordinates_value = json.loads(tags_with_coordinates)
@@ -42,5 +42,3 @@ def login(username, password):
     if is_logged_in:
         return JsonResponse({'status': 'User logged in successfully'})
     return JsonResponse({'status': 'Wrong username or password'})
-
-

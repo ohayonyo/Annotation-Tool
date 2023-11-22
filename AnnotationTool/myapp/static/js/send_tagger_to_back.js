@@ -13,10 +13,20 @@ function sendDataToBackend() {
       const formData = new FormData();
       const blob = new Blob([file], { type: file.type }); 
 
+      const currentUrl = window.location.href;
+      const urlParts = currentUrl.split('/');
+      username = urlParts[3];
+
+      // let url = 'http://127.0.0.1:8000/'+urlParts[3]+'/upload_image';
+      // window.location.href = url;
+
       formData.append('image', blob);
       formData.append('points', JSON.stringify(points));
       formData.append('tagged', tagInput.value);
       formData.append('tagsWithCoordinates', JSON.stringify(tagsWithCoordinates));
+      formData.append('username', username);
+      
+
   
       const csrfToken = getCookie('csrftoken');
 
@@ -37,9 +47,14 @@ function sendDataToBackend() {
       });
       clearCanvas();
       tagInput.value='';
+      labels=[];
+      tagsWithCoordinates=[];
   } else {
       console.error('No file selected.');
   }
+
+  clearCanvas();
+  tagInput.value='';
 }
 
 function resetInputValue(inputId) {

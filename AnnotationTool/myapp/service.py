@@ -8,7 +8,8 @@ def save_image_tags(request):
     if request.method == 'POST':
         image_file = request.FILES.get('image')
         tags_with_coordinates = request.POST.get('tagsWithCoordinates')
-        return save_image_tags_back(image_file, tags_with_coordinates)
+        username = request.POST.get('username')
+        return save_image_tags_back(username, image_file, tags_with_coordinates)
     return JsonResponse({'status': 'Invalid request method.'})
 
 
