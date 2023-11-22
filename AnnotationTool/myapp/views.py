@@ -9,11 +9,17 @@ def home(request):
     return render(request, "home.html")
 
 
-def upload_image_page(request):
+def upload_image_page(request,username):
     return render(request, "upload_image_page.html")
+
 
 def login_page(request):
     return render(request, "login_page.html")
 
+
 def register_page(request):
-    return render(request, "register_page.html")   
+    return render(request, "register_page.html")
+
+
+def user_home(request, username):
+    return render(request, "user_home_page.html")

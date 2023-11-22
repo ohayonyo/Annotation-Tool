@@ -30,13 +30,15 @@
             <input type="password" class='RegisterPage_text' name="password" value="{{password}}"
                 onChange="(e)=>setPassword(e.target.value)" required></input>
             <span class='LoginRegister_Span text_span span' style="margin-right: 100%;">password</span>
-            <button style="margin-top: 10px;" class='RegisterPage_SignupButton'>
+            <button style="margin-top: 10px;" class='RegisterPage_SignupButton' onclick="register()">
                 Sign Up
             </button>
 
         </div>
     </div>
 </div>
+
+<script src="../static/js/register.js"></script>
 
 </body>
 </html>

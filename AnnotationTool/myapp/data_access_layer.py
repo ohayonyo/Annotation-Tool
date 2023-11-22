@@ -45,8 +45,17 @@ def create_db():
             );
             '''
 
+            create_users_table = '''
+            CREATE TABLE IF NOT EXISTS users_tb (
+                username TEXT PRIMARY KEY,
+                password TEXT,
+                is_active INTEGER DEFAULT 0
+            );
+            '''
+
             cursor.execute(create_images_table)
             cursor.execute(create_tags_table)
+            cursor.execute(create_users_table)
         except sqlite3.Error as e:
             print('Error creating tables')
             print(f"SQLite error: {e}")
@@ -111,3 +120,63 @@ def save_image_tag(tag_with_coordinates, image_index_row_db, list_element_id):
         finally:
             conn.commit()
             close_connection(conn)
+
+
+def is_username_exists(username):
+    conn, cursor = connect_to_db()
+    if conn and cursor:
+        try:
+            cursor.execute("""
+                SELECT CASE WHEN EXISTS (SELECT 1 FROM users_tb WHERE username = ?) 
+                THEN 1 ELSE 0 END AS username_exists;
+            """, (username,))
+            result = cursor.fetchone()
+            return result[0]
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+        finally:
+            conn.commit()
+            close_connection(conn)
+
+
+def save_new_user(username, password):
+    conn, cursor = connect_to_db()
+    if conn and cursor:
+        try:
+            cursor.execute("""
+                INSERT INTO users_tb (username, password) VALUES (?, ?)
+            """, (username, password))
+            conn.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+            return False
+        finally:
+            close_connection(conn)
+    return False
+
+
+def login(username, password):
+    conn, cursor = connect_to_db()
+    if conn and cursor:
+        try:
+            cursor.execute("""
+                SELECT * FROM users_tb WHERE username = ? AND password = ?
+            """, (username, password))
+            user = cursor.fetchone()
+
+            if user:
+                cursor.execute("""
+                    UPDATE users_tb SET is_active = 1 WHERE username = ?
+                """, (username,))
+
+                conn.commit()
+                return True
+            else:
+                return False
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+            return False
+        finally:
+            close_connection(conn)
+    return False
