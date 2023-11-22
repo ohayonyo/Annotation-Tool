@@ -11,3 +11,9 @@ def home(request):
 
 def upload_image_page(request):
     return render(request, "upload_image_page.html")
+
+def login_page(request):
+    return render(request, "login_page.html")
+
+def register_page(request):
+    return render(request, "register_page.html")   

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../static/css/register_page.css">
+    <title>Login</title>
+</head>
+
+<style>
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+</style>
+
+<body>
+
+<div>
+    <div class='RegisterPage_Screen'>
+        <div style="margin-right: 110px;">
+            <h2 class='nonactive h2'><a href="/login" style="text-decoration:none; color: #1161ed;">sign in</a></h2>
+            <h2 class='active h2' style="font-weight: 400; color: white;">sign up</h2>
+        </div>
+
+        <div class='RegisterPage_Form' style="margin-top: 13%;">
+            <input type="text" class='RegisterPage_text' name="username" value="{{username}}"
+                onChange="(e)=>setUsername(e.target.value)" required/>
+            <span class='LoginRegister_Span text_span span' style="margin-right: 100%;">username</span>
+            <input type="password" class='RegisterPage_text' name="password" value="{{password}}"
+                onChange="(e)=>setPassword(e.target.value)" required></input>
+            <span class='LoginRegister_Span text_span span' style="margin-right: 100%;">password</span>
+            <button style="margin-top: 10px;" class='RegisterPage_SignupButton'>
+                Sign Up
+            </button>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
