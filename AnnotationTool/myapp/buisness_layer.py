@@ -1,20 +1,22 @@
 from django.http import JsonResponse
 
 from .data_access_layer import create_db
-from .data_access_layer import save_image_tagger as save_image_tagger_db
+from .data_access_layer import save_image as save_image_db
+from .data_access_layer import save_image_tag as save_image_tag_db
+
+import json
 
 create_db()
 
 
-def save_image_tagger(image, point1, point2, tag_name):
-    x1_coordinate = point1['x']
-    y1_coordinate = point1['y']
-    x2_coordinate = point2['x']
-    y2_coordinate = point2['y']
+def save_image_tags(image_file, tags_with_coordinates):
+    image_index_row_db = save_image_db(image_file)
+    if image_index_row_db is None:
+        return JsonResponse({'status': "couldn't save the image."})
+    tags_with_coordinates_value = json.loads(tags_with_coordinates)
 
-    print("image:")
-    print(image)
-    print("(" + str(x1_coordinate) + "," + str(y1_coordinate) + ')')
-    print("(" + str(x2_coordinate) + "," + str(y2_coordinate) + ')')
-    save_image_tagger_db(image, tag_name, x1_coordinate, y1_coordinate, x2_coordinate, y2_coordinate)
+    for i in range(len(tags_with_coordinates_value)):
+        tag_with_coordinates = tags_with_coordinates_value[i]
+        list_element_id = i + 1
+        save_image_tag_db(tag_with_coordinates, image_index_row_db, list_element_id)
     return JsonResponse({'status': 'Data received and processed successfully.'})

@@ -4,6 +4,8 @@ var image = document.getElementById('preview');
 var tagInput = document.getElementById('tagInput');
 
 let labels = [];
+let tagsWithCoordinates = [];
+
 var rectPoints = {
   x1: 0,
   y1: 0,
@@ -37,9 +39,11 @@ canvas.addEventListener('click', function(event) {
     context.fillStyle = 'red';
     var xBoxText = rectPoints.x1 < rectPoints.x2 ? rectPoints.x1 + 30 : rectPoints.x2 + 30;
     var yBoxText = rectPoints.y1 < rectPoints.y2 ? rectPoints.y1 + 30 : rectPoints.y2 + 30;
-    
     var labelToAdd = {'text':tagInput.value, 'xPosition':xBoxText, 'yPosition':yBoxText};
     labels.push(labelToAdd);
+
+    let taggerToAdd = {'tag':tagInput.value,'coordinates':[rectPoints.x1,rectPoints.y1,rectPoints.x2,rectPoints.y2]};
+    tagsWithCoordinates.push(taggerToAdd);
   }
 
   for (var i = 0; i < labels.length; i++) {

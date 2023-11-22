@@ -16,6 +16,7 @@ function sendDataToBackend() {
       formData.append('image', blob);
       formData.append('points', JSON.stringify(points));
       formData.append('tagged', tagInput.value);
+      formData.append('tagsWithCoordinates', JSON.stringify(tagsWithCoordinates));
   
       const csrfToken = getCookie('csrftoken');
 
