@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %} Upload image page {% endblock %}
+{% block content %}
+{% load static %}
+<div style="text-align: center; font-size: 24px;">
+  <p>Upload image page</p>
+</div>
+
+<div style="margin-left: 10%;">
+  <div enctype="multipart/form-data" id="uploadForm">
+    {% csrf_token %}
+    <label for="imageInput">Select an image:</label>
+    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
+    <label for="tagInput">Tag name:</label>
+    <input type="text" name="tag_name" id="tagInput"/>
+    <button id="submitButton" class="my-button" onclick="sendDataToBackend()">submit</button>
+    <button onclick="updateImage()" class="my-button">clear</button>
+  </div>
+
+  <canvas id="myCanvas" width="800" height="600">
+    <div id="imagePreview" style="display:none;">
+      <p>Preview:</p>
+      <img id="preview" src="" alt="Image preview" style="max-width: 300px;">
+    </div>
+  </canvas>
+</div>
+
+
+<script src="{% static 'js/make_rectangles.js' %}"></script>
+<script src="{% static 'js/upload_image.js' %}"></script>
+<script src="{% static 'js/send_tagger_to_back.js' %}"></script>
+
+
+{% endblock %}
