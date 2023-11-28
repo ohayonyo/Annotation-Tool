@@ -58,99 +58,98 @@
 <body>
 
     <div id="imageListContainer">
-        <div class="image-list">
-            <div class="image-list-item">
-                <div class="canvas-container">
-                    <canvas></canvas>
-                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
-                </div>
-            </div>
-            
-            <div class="image-list-item">
-                <div class="canvas-container">
-                    <canvas></canvas>
-                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
-                </div>
-            </div>
-
-            <div class="image-list-item">
-                <div class="canvas-container">
-                    <canvas></canvas>
-                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
-                </div>
-            </div>
-
-        </div>
+        <div class="image-list" id="imageList"></div>
     </div>
 
+    <!-- upload image lists -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get all canvas elements and their associated images
-            const canvases = document.querySelectorAll('canvas');
-            const images = document.querySelectorAll('.canvas-overlay');
+        const imageArray = [
+            "{% static 'pictures/image1.jpg' %}",
+            "{% static 'pictures/image2.jpg' %}",
+            "{% static 'pictures/image1.jpg' %}",
+            "{% static 'pictures/image1.jpg' %}"
+        ];
+        const imageListContainer = document.getElementById('imageList');
 
-            // Loop through each canvas
-            canvases.forEach((canvas, index) => {
-                const context = canvas.getContext('2d');
+        imageArray.forEach((imageName, index) => {
+            const imageListItem = document.createElement('div');
+            imageListItem.classList.add('image-list-item');
 
-                // Set canvas dimensions based on the associated image
-                canvas.width = images[index].width;
-                canvas.height = images[index].height;
+            const canvasContainer = document.createElement('div');
+            canvasContainer.classList.add('canvas-container');
+            imageListItem.appendChild(canvasContainer);
 
-                let isDrawing = false;
-                let lastX = 0;
-                let lastY = 0;
+            const canvasElement = document.createElement('canvas');
+            canvasContainer.appendChild(canvasElement);
 
-                // Event listeners for drawing
-                canvas.addEventListener('mousedown', (e) => {
-                    isDrawing = true;
-                    [lastX, lastY] = [e.offsetX, e.offsetY];
-                });
-
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseup', () => isDrawing = false);
-                canvas.addEventListener('mouseout', () => isDrawing = false);
-
-                function draw(e) {
-                    if (!isDrawing) return;
-
-                    context.strokeStyle = '#000'; // Set stroke color
-                    context.lineJoin = 'round';
-                    context.lineCap = 'round';
-                    context.lineWidth = 5; // Set line width
-
-                    context.beginPath();
-                    context.moveTo(lastX, lastY);
-                    context.lineTo(e.offsetX, e.offsetY);
-                    context.stroke();
-
-                    [lastX, lastY] = [e.offsetX, e.offsetY];
-                }
-            });
+            const image = document.createElement('img');
+            image.src = imageName;
+            image.alt = `Image ${index + 1}`;
+            image.classList.add('canvas-overlay')
+            canvasContainer.appendChild(image);
+            imageListContainer.appendChild(imageListItem);
         });
     </script>
 
-    <script>
-        // const imageArray = [
-        //     "{% static 'pictures/image1.jpg' %}",
-        //     "{% static 'pictures/image2.jpg' %}",
-        //     "{% static 'pictures/image3.jpg' %}",
-        //     "{% static 'pictures/image4.jpg' %}"
-        // ];
-        // const imageListContainer = document.getElementById('imageList');
+<!-- enables annotate -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all canvas elements and their associated images
+        const canvases = document.querySelectorAll('canvas');
+        const images = document.querySelectorAll('.canvas-overlay');
 
-        // imageArray.forEach((imageName, index) => {
-        //     const imageListItem = document.createElement('div');
-        //     imageListItem.classList.add('image-list-item');
+        // Loop through each canvas
+        canvases.forEach((canvas, index) => {
+            const context = canvas.getContext('2d');
 
-        //     const image = document.createElement('img');
-        //     image.src = imageName;
-        //     image.alt = `Image ${index + 1}`;
+            // Set canvas dimensions based on the associated image
+            canvas.width = images[index].width;
+            canvas.height = images[index].height;
 
-        //     imageListItem.appendChild(image);
-        //     imageListContainer.appendChild(imageListItem);
-        // });
-    </script>
+            let isDrawing = false;
+            let startX, startY, width, height;
+
+            // Event listeners for drawing rectangles
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                startX = e.offsetX;
+                startY = e.offsetY;
+            });
+
+            canvas.addEventListener('mousemove', drawRectangle);
+            canvas.addEventListener('mouseup', () => {
+                if (isDrawing) {
+                    isDrawing = false;
+                    drawRectangle({ offsetX: startX, offsetY: startY }); // Draw rectangle on mouseup
+                }
+            });
+
+            function drawRectangle(e) {
+                if (!isDrawing) return;
+
+                width = e.offsetX - startX;
+                height = e.offsetY - startY;
+
+                context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                context.strokeStyle = '#000'; // Set stroke color
+                context.lineWidth = 5; // Set line width
+
+                context.strokeRect(startX, startY, width, height); // Draw rectangle
+            }
+
+            // Redraw the rectangle when the mouse leaves the canvas
+            canvas.addEventListener('mouseleave', () => {
+                if (isDrawing) {
+                    context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                    context.strokeStyle = '#000'; // Set stroke color
+                    context.lineWidth = 5; // Set line width
+
+                    context.strokeRect(startX, startY, width, height); // Draw rectangle
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
