@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}  <!-- Load the static template tag library -->
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #imageListContainer {
+            width: 50%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .image-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .image-list-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .canvas-container {
+            position: relative;
+        }
+
+        .canvas-overlay {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair; /* Change cursor to crosshair for drawing */
+        }
+    </style>
+    <title>Ordered Image List</title>
+</head>
+<body>
+
+    <div id="imageListContainer">
+        <div class="image-list">
+            <div class="image-list-item">
+                <div class="canvas-container">
+                    <canvas></canvas>
+                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
+                </div>
+            </div>
+            
+            <div class="image-list-item">
+                <div class="canvas-container">
+                    <canvas></canvas>
+                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
+                </div>
+            </div>
+
+            <div class="image-list-item">
+                <div class="canvas-container">
+                    <canvas></canvas>
+                    <img src="{% static 'pictures/image1.jpg' %}" class="canvas-overlay">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all canvas elements and their associated images
+            const canvases = document.querySelectorAll('canvas');
+            const images = document.querySelectorAll('.canvas-overlay');
+
+            // Loop through each canvas
+            canvases.forEach((canvas, index) => {
+                const context = canvas.getContext('2d');
+
+                // Set canvas dimensions based on the associated image
+                canvas.width = images[index].width;
+                canvas.height = images[index].height;
+
+                let isDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+
+                // Event listeners for drawing
+                canvas.addEventListener('mousedown', (e) => {
+                    isDrawing = true;
+                    [lastX, lastY] = [e.offsetX, e.offsetY];
+                });
+
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', () => isDrawing = false);
+                canvas.addEventListener('mouseout', () => isDrawing = false);
+
+                function draw(e) {
+                    if (!isDrawing) return;
+
+                    context.strokeStyle = '#000'; // Set stroke color
+                    context.lineJoin = 'round';
+                    context.lineCap = 'round';
+                    context.lineWidth = 5; // Set line width
+
+                    context.beginPath();
+                    context.moveTo(lastX, lastY);
+                    context.lineTo(e.offsetX, e.offsetY);
+                    context.stroke();
+
+                    [lastX, lastY] = [e.offsetX, e.offsetY];
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // const imageArray = [
+        //     "{% static 'pictures/image1.jpg' %}",
+        //     "{% static 'pictures/image2.jpg' %}",
+        //     "{% static 'pictures/image3.jpg' %}",
+        //     "{% static 'pictures/image4.jpg' %}"
+        // ];
+        // const imageListContainer = document.getElementById('imageList');
+
+        // imageArray.forEach((imageName, index) => {
+        //     const imageListItem = document.createElement('div');
+        //     imageListItem.classList.add('image-list-item');
+
+        //     const image = document.createElement('img');
+        //     image.src = imageName;
+        //     image.alt = `Image ${index + 1}`;
+
+        //     imageListItem.appendChild(image);
+        //     imageListContainer.appendChild(imageListItem);
+        // });
+    </script>
+
+</body>
+</html>
