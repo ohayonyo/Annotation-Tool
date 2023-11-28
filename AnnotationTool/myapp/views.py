@@ -23,3 +23,6 @@ def register_page(request):
 
 def user_home(request, username):
     return render(request, "user_home_page.html")
+
+def user_tags_page(request):
+     return render(request, "user_tags.html")
