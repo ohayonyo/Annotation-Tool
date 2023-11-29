@@ -42,7 +42,10 @@
             <a class="nav-link" href="/" onclick="logout()">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="appendUploadImage()">Upload image</a>
+            <a class="nav-link" href="#" onclick="changeUserUrlPage('/upload_image')">Upload Image</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="changeUserUrlPage('/my_tags')">My Tags</a>
           </li>
         </ul>
       </div>
@@ -53,13 +56,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    function appendUploadImage(){
+    function changeUserUrlPage(userPath){
       var currentUrl = window.location.href;
       var urlParts = currentUrl.split('/');
       for(let i=0;i<urlParts.length;i++){
         console.log('i=',i,' urlparts[i]=',urlParts[i])
       }
-      let url = 'http://127.0.0.1:8000/'+urlParts[3]+'/upload_image';
+      let url = 'http://127.0.0.1:8000/'+urlParts[3]+userPath;
       window.location.href = url;
     }
   </script>
