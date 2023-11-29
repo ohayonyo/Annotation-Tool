@@ -190,18 +190,34 @@ def login(username, password):
 
 
 def get_images_of_user(username):
-    print("inside db")
     conn, cursor = connect_to_db()
     image_data = None
     if conn and cursor:
         try:
             cursor.execute("SELECT image_index, image FROM images_tb WHERE username=?", (username,))
             image_rows = cursor.fetchall()
+            image_data = [{'image_index': row[0], 'image': base64.b64encode(row[1]).decode('utf-8')} for row in
+                          image_rows]
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+        finally:
+            conn.commit()
+            close_connection(conn)
+    return image_data
 
-            image_data = [{'image_index': row[0], 'image': base64.b64encode(row[1]).decode('utf-8')} for row in image_rows]
-            print('image_data:')
-            for i in range(len(image_data)):
-                print(image_data[i])
+
+def get_image_tags(image_index):
+    conn, cursor = connect_to_db()
+    image_data = None
+    if conn and cursor:
+        try:
+            cursor.execute(
+                "SELECT tag_name, x1_coordinate, y1_coordinate, x2_coordinate,y2_coordinate FROM image_tags_tb WHERE image_index=?",
+                (image_index,))
+            image_tags_rows = cursor.fetchall()
+            image_data = [{'tag_name': row[0], 'x1_coordinate': row[1], 'y1_coordinate': row[2],
+                           'x2_coordinate': row[3], 'y2_coordinate': row[4]} for row in
+                          image_tags_rows]
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
         finally:
