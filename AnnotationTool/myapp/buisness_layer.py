@@ -6,6 +6,7 @@ from .data_access_layer import save_image_tag as save_image_tag_db
 from .data_access_layer import is_username_exists as is_username_exists_db
 from .data_access_layer import save_new_user as save_new_user_db
 from .data_access_layer import login as login_db
+from .data_access_layer import get_images_of_user as get_images_of_user_db
 import json
 from passlib.hash import bcrypt
 import bcrypt
@@ -42,3 +43,11 @@ def login(username, password):
     if is_logged_in:
         return JsonResponse({'status': 'User logged in successfully'})
     return JsonResponse({'status': 'Wrong username or password'})
+
+
+def get_images_of_user(username):
+    print("inside the buisness")
+    images_data = get_images_of_user_db(username)
+    if images_data is not None:
+        return JsonResponse({'images': images_data})
+    return JsonResponse({'status': 'An error occurred in get user images'})

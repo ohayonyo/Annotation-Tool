@@ -1,5 +1,7 @@
 import sqlite3
 
+import base64
+
 
 def connect_to_db():
     try:
@@ -185,3 +187,24 @@ def login(username, password):
         finally:
             close_connection(conn)
     return False
+
+
+def get_images_of_user(username):
+    print("inside db")
+    conn, cursor = connect_to_db()
+    image_data = None
+    if conn and cursor:
+        try:
+            cursor.execute("SELECT image_index, image FROM images_tb WHERE username=?", (username,))
+            image_rows = cursor.fetchall()
+
+            image_data = [{'image_index': row[0], 'image': base64.b64encode(row[1]).decode('utf-8')} for row in image_rows]
+            print('image_data:')
+            for i in range(len(image_data)):
+                print(image_data[i])
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+        finally:
+            conn.commit()
+            close_connection(conn)
+    return image_data
