@@ -21,7 +21,7 @@ function getTagsOfImage(image_index) {
     })
     .catch(error => {
       console.error('Error fetching images:', error);
-      throw error; // Re-throw the error to maintain consistency in error handling.
+      throw error; 
     });
 }
 
@@ -51,13 +51,9 @@ function renderUserImages(images) {
 
       const ctx = canvasElement.getContext('2d');
       
-      const borderWidth = 2; // Set the width of the red border
-
-      // Draw an empty rectangle with red border on the canvas
+      const borderWidth = 2; 
       ctx.strokeStyle = 'red';
       ctx.lineWidth = borderWidth;
-      // ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-
 
       getTagsOfImage(image.image_index)
   .then(imageTags => {
@@ -86,11 +82,14 @@ function renderUserImages(images) {
     console.error('Error in the main function:', error);
   });
 
+<<<<<<< HEAD
     
       // const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image.image_index;
 
       // console.log('image_index:', image.image_index);
 
+=======
+>>>>>>> fixing_page_navigation
   });
 }
 const currentUrl = window.location.href;
