@@ -104,9 +104,9 @@ function renderUserImages(images) {
 
   });
 }
-const currentUrl = window.location.href;
-const urlParts = currentUrl.split('/');
-const username = urlParts[3];
+const currentUrl2 = window.location.href;
+const urlParts2 = currentUrl2.split('/');
+const username = urlParts2[3];
 
 const loadImagesUrl = 'http://127.0.0.1:8000/myapp/get_images_of_user_service/?username=' + username;
 
