@@ -1,5 +1,9 @@
 const SCREEN_RATIO = 0.7;
 
+function convertPointToTheNewScreen(newScreenWidth, newScreenHeight,x,y){
+  return [(newScreenWidth/uploadImageScreen_width)*x,(newScreenHeight/uploadImageScreen_height)*y];
+}
+
 
 function getTagsOfImage(image_index) {
   const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image_index;
@@ -27,12 +31,6 @@ function renderUserImages(images) {
   images.forEach(image => {
       const imageListItem = document.createElement('div');
       imageListItem.classList.add('image-list-item');
-
-      // example of how to hide elements 
-      // if(image.image_index === 1 || image.image_index === 3)
-      //   imageListItem.setAttribute('name', 'invisible');
-
-
 
       const canvasContainer = document.createElement('div');
       canvasContainer.classList.add('canvas-container');
@@ -64,6 +62,7 @@ function renderUserImages(images) {
       getTagsOfImage(image.image_index)
   .then(imageTags => {
     if (Array.isArray(imageTags)) {
+      console.log('imageTags',imageTags)
       imageTags.forEach(tag => {
         const rectWidth = Math.abs(tag.x2_coordinate - tag.x1_coordinate)*SCREEN_RATIO;
         const rectHeight = Math.abs(tag.y2_coordinate - tag.y1_coordinate)*SCREEN_RATIO;
@@ -87,16 +86,6 @@ function renderUserImages(images) {
     console.error('Error in the main function:', error);
   });
 
-  // !!!!!!!!!!!!!!!!!!!!!!!!!hide all elements with name invisible (use it for filter)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  // const myDivs = document.getElementsByName('invisible');
-  //   for(let i=0;i<myDivs.length;i++){
-  //     if(myDivs && myDivs[i]){
-  //       myDivs[i].style.display = 'none';
-  //     }
-  //   }
-
-
     
       // const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image.image_index;
 
@@ -104,9 +93,9 @@ function renderUserImages(images) {
 
   });
 }
-const currentUrl2 = window.location.href;
-const urlParts2 = currentUrl2.split('/');
-const username = urlParts2[3];
+const currentUrl = window.location.href;
+const urlParts = currentUrl.split('/');
+const username = urlParts[3];
 
 const loadImagesUrl = 'http://127.0.0.1:8000/myapp/get_images_of_user_service/?username=' + username;
 
