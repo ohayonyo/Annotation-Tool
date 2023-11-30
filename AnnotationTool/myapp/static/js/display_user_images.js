@@ -1,9 +1,5 @@
 const SCREEN_RATIO = 0.7;
 
-function convertPointToTheNewScreen(newScreenWidth, newScreenHeight,x,y){
-  return [(newScreenWidth/uploadImageScreen_width)*x,(newScreenHeight/uploadImageScreen_height)*y];
-}
-
 
 function getTagsOfImage(image_index) {
   const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image_index;
@@ -58,7 +54,6 @@ function renderUserImages(images) {
       getTagsOfImage(image.image_index)
   .then(imageTags => {
     if (Array.isArray(imageTags)) {
-      console.log('imageTags',imageTags)
       imageTags.forEach(tag => {
         const rectWidth = Math.abs(tag.x2_coordinate - tag.x1_coordinate)*SCREEN_RATIO;
         const rectHeight = Math.abs(tag.y2_coordinate - tag.y1_coordinate)*SCREEN_RATIO;
@@ -82,19 +77,11 @@ function renderUserImages(images) {
     console.error('Error in the main function:', error);
   });
 
-<<<<<<< HEAD
-    
-      // const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image.image_index;
-
-      // console.log('image_index:', image.image_index);
-
-=======
->>>>>>> fixing_page_navigation
   });
 }
-const currentUrl = window.location.href;
-const urlParts = currentUrl.split('/');
-const username = urlParts[3];
+const currentUrl2 = window.location.href;
+const urlParts2 = currentUrl2.split('/');
+const username = urlParts2[3];
 
 const loadImagesUrl = 'http://127.0.0.1:8000/myapp/get_images_of_user_service/?username=' + username;
 
@@ -112,6 +99,3 @@ fetch(loadImagesUrl)
   .catch(error => {
       console.error('Error fetching images:', error);
   });
-
-
-  
