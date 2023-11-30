@@ -26,4 +26,4 @@ def user_home(request, username):
 
 
 def user_tags_page(request, username):
-    return render(request, "user_tags2.html")
+    return render(request, "user_tags.html")

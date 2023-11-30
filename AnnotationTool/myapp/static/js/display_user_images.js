@@ -17,7 +17,7 @@ function getTagsOfImage(image_index) {
     })
     .catch(error => {
       console.error('Error fetching images:', error);
-      throw error; // Re-throw the error to maintain consistency in error handling.
+      throw error; 
     });
 }
 
@@ -27,12 +27,6 @@ function renderUserImages(images) {
   images.forEach(image => {
       const imageListItem = document.createElement('div');
       imageListItem.classList.add('image-list-item');
-
-      // example of how to hide elements 
-      // if(image.image_index === 1 || image.image_index === 3)
-      //   imageListItem.setAttribute('name', 'invisible');
-
-
 
       const canvasContainer = document.createElement('div');
       canvasContainer.classList.add('canvas-container');
@@ -53,13 +47,9 @@ function renderUserImages(images) {
 
       const ctx = canvasElement.getContext('2d');
       
-      const borderWidth = 2; // Set the width of the red border
-
-      // Draw an empty rectangle with red border on the canvas
+      const borderWidth = 2; 
       ctx.strokeStyle = 'red';
       ctx.lineWidth = borderWidth;
-      // ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-
 
       getTagsOfImage(image.image_index)
   .then(imageTags => {
@@ -86,21 +76,6 @@ function renderUserImages(images) {
   .catch(error => {
     console.error('Error in the main function:', error);
   });
-
-  // !!!!!!!!!!!!!!!!!!!!!!!!!hide all elements with name invisible (use it for filter)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  // const myDivs = document.getElementsByName('invisible');
-  //   for(let i=0;i<myDivs.length;i++){
-  //     if(myDivs && myDivs[i]){
-  //       myDivs[i].style.display = 'none';
-  //     }
-  //   }
-
-
-    
-      // const loadImageTagsUrl = 'http://127.0.0.1:8000/myapp/get_image_tags_service/?image_index=' + image.image_index;
-
-      // console.log('image_index:', image.image_index);
 
   });
 }
