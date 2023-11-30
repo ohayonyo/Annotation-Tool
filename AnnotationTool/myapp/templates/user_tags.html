@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}  <!-- Load the static template tag library -->
+{% extends "user_menu.html" %} {% block title %} User tags {% endblock %}
+
+{% block head-block %}
+{% load static %}
     <style>
-       body {
+       /* body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -14,12 +12,16 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-        }
+        } */
 
         #imageListContainer {
             width: 50%;
             height: 100%;
             overflow-y: auto;
+            /* overflow-x: hidden; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .image-list {
@@ -60,130 +62,23 @@
             position: absolute;
             top: 0;
             left: 0;
-            cursor: crosshair; 
         }
+
     </style>
     <title>Ordered Image List</title>
-</head>
-<body>
-    
-
-    <div id="imageListContainer">
-        <div class="image-list" id="imageList"></div>
-    </div>
-
     <script src="{% static 'js/display_user_images.js' %}"></script>
+  <script src="{% static 'js/user_menu_page_nav.js' %}"></script>
 
 
-    <!-- upload image lists -->
-    <!-- <script>
-        const imageArray = [
-            "{% static 'pictures/image1.jpg' %}",
-            "{% static 'pictures/image2.jpg' %}",
-            "{% static 'pictures/image1.jpg' %}",
-            "{% static 'pictures/image1.jpg' %}"
-        ];
-        const imageListContainer = document.getElementById('imageList');
+{% endblock %}
 
-        imageArray.forEach((imageName, index) => {
-            const imageListItem = document.createElement('div');
-            imageListItem.classList.add('image-list-item');
+{% block content %}
 
-            const canvasContainer = document.createElement('div');
-            canvasContainer.classList.add('canvas-container');
-            imageListItem.appendChild(canvasContainer);
+<div style="width: 110%; justify-content: center; align-items: center; display: flex;">
+  <div id="imageListContainer" style="transform: scale(0.85); width: 70%; margin-top: -20px; border: 2px solid #000; padding: 10px; border-radius: 8px;">
+    <h1>My tags:</h1>
+    <div class="image-list" style="margin-left: 110px;" id="imageList"></div>
+  </div>
+</div>
 
-            const canvasElement = document.createElement('canvas');
-            canvasContainer.appendChild(canvasElement);
-
-            const image = document.createElement('img');
-            image.src = imageName;
-            image.alt = `Image ${index + 1}`;
-            image.classList.add('canvas-overlay')
-            canvasContainer.appendChild(image);
-            imageListContainer.appendChild(imageListItem);
-        });
-    </script> -->
-
-<!-- enables annotate -->
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const canvases = document.querySelectorAll('canvas');
-        const images = document.querySelectorAll('.canvas-overlay');
-
-
-        canvases.forEach((canvas, index) => {
-            const arr = [];
-            const context = canvas.getContext('2d');
-
-            canvas.width = images[index].width;
-            canvas.height = images[index].height;
-
-            
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.strokeStyle = 'red'; 
-                context.lineWidth = 5; 
-                context.strokeRect(50, 100, 200, 200); 
-            
-            
-
-            let isDrawing = false;
-            let startX, startY, width, height;
-
-
-            canvas.addEventListener('mousedown', (e) => {
-                isDrawing = true;
-                startX = e.offsetX;
-                startY = e.offsetY;
-            });
-
-            canvas.addEventListener('mousemove', drawRectangle);
-            canvas.addEventListener('mouseup', () => {
-                if (isDrawing) {
-                    isDrawing = false;
-                    drawRectangle({ offsetX: startX, offsetY: startY }); 
-
-                    for(let i=0;i<arr.length;i++){
-                        context.strokeRect(arr[i][0], arr[i][1], arr[i][2], arr[i][3]);
-                    }
-                    context.strokeRect(startX, startY, width, height); 
-                    arr.push([startX,startY,width,height]);
-                    console.log(arr)
-                    
-                }
-            });
-
-            function drawRectangle(e) {
-                if (!isDrawing) return;
-
-                width = e.offsetX - startX;
-                height = e.offsetY - startY;
-
-                context.clearRect(0, 0, canvas.width, canvas.height); 
-                context.strokeStyle = '#000'; 
-                context.lineWidth = 5; 
-
-                context.strokeRect(startX, startY, width, height); 
-            }
-
-            
-            canvas.addEventListener('mouseleave', () => {
-                if (isDrawing) {
-                    context.clearRect(0, 0, canvas.width, canvas.height); 
-                    context.strokeStyle = '#000'; 
-                    context.lineWidth = 5;
-                    for(let i=0;i<arr.length;i++){
-                        context.strokeRect(arr[i][0], arr[i][1], arr[i][2], arr[i][3]);
-                    }
-                    context.strokeRect(startX, startY, width, height); 
-                    arr.push([startX,startY,width,height]);
-                    console.log(arr)
-                }
-            });
-        });
-    });
-</script> -->
-
-</body>
-</html>
+{% endblock %}
