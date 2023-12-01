@@ -3,12 +3,12 @@
 {% load static %}
 
 <div>
-  <div style="text-align: center; font-size: 24px;">
+  <div style="text-align: center; font-size: 24px; font-weight: 600;">
     <p>Upload image page</p>
   </div>
   
   <div style="margin-left: 10%;">
-    <div enctype="multipart/form-data" id="uploadForm" style="background-color: white; width: 80.2%;">
+    <div enctype="multipart/form-data" id="uploadForm" style="background-color: white; width: 80.2%; font-weight: 400;">
       {% csrf_token %}
       <label for="imageInput">Select an image:</label>
       <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
