@@ -11,7 +11,10 @@ function changeUserUrlPage(userPath){
 
 var homeButton = document.getElementById('homeButton');
 var aboutButton = document.getElementById('aboutButton');
-homeButton.setAttribute('href' , url+'/home');
-aboutButton.setAttribute('href' , url+'/home');
+if(homeButton && aboutButton){
+  homeButton.setAttribute('href' , url+'/home');
+  aboutButton.setAttribute('href' , url+'/home');
+}
+
 
 console.log('hello there!')

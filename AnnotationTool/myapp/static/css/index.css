@@ -12,8 +12,10 @@
   border: 1px solid rgb(113, 113, 113);
 }
 
-.home_background{
-     background-image: url("../pictures/login_page_background.jpg");
-     background-repeat: no-repeat;
-     background-size: cover;
+body{
+  background-image: url("../pictures/main_background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+
