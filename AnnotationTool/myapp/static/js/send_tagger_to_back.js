@@ -17,17 +17,12 @@ function sendDataToBackend() {
       const urlParts = currentUrl.split('/');
       username = urlParts[3];
 
-      // let url = 'http://127.0.0.1:8000/'+urlParts[3]+'/upload_image';
-      // window.location.href = url;
-
       formData.append('image', blob);
       formData.append('points', JSON.stringify(points));
       formData.append('tagged', tagInput.value);
       formData.append('tagsWithCoordinates', JSON.stringify(tagsWithCoordinates));
       formData.append('username', username);
       
-
-  
       const csrfToken = getCookie('csrftoken');
 
       fetch('http://127.0.0.1:8000/myapp/save_image_tagger/', {
