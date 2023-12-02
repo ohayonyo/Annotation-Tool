@@ -21,6 +21,10 @@ function getTagsOfImage(image_index) {
     });
 }
 
+function deleteImageTags(image_index) {
+  //TODO: need to implements
+}
+
 function renderUserImages(images) {
   const imageListContainer = document.getElementById('imageList');
 
@@ -55,10 +59,17 @@ function renderUserImages(images) {
       </svg>
       Delete
     `;
+    
     elementDiv.appendChild(deleteButton); 
 
+    deleteButton.addEventListener('click', function () {
+      console.log('delete:',image.image_index);
+      elementDiv.style.display = 'none';
+      deleteImageTags(image.image_index);
+  });
+
     imageListContainer.appendChild(elementDiv);
-    
+
       canvasElement.width = imgElement.width;
       canvasElement.height = imgElement.height;
 
@@ -116,3 +127,6 @@ fetch(loadImagesUrl)
   .catch(error => {
       console.error('Error fetching images:', error);
   });
+
+
+  
