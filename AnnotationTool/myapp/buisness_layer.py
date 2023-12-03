@@ -8,6 +8,7 @@ from .data_access_layer import save_new_user as save_new_user_db
 from .data_access_layer import login as login_db
 from .data_access_layer import get_images_of_user as get_images_of_user_db
 from .data_access_layer import get_image_tags as get_image_tags_db
+from .data_access_layer import delete_image_by_index as delete_image_by_index_db
 import json
 from passlib.hash import bcrypt
 import bcrypt
@@ -58,3 +59,10 @@ def get_image_tags(image_index):
     if image_tags is not None:
         return JsonResponse({'image_tags': image_tags})
     return JsonResponse({'status': 'An error occurred in get user images'})
+
+
+def delete_image_by_index(image_index):
+    is_deleted = delete_image_by_index_db(image_index)
+    if is_deleted:
+        return JsonResponse({'status': 'The image with index:'+image_index+' was successfully deleted s'})
+    return JsonResponse({'status': 'An error occurred in delete image'})

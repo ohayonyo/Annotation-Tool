@@ -39,7 +39,7 @@ def create_db():
                     username TEXT,
                     image_index INTEGER PRIMARY KEY AUTOINCREMENT,
                     image BLOB,
-                    FOREIGN KEY (username) REFERENCES users_tb(username)
+                    FOREIGN KEY (username) REFERENCES users_tb(username) ON DELETE CASCADE
                 );
             '''
 
@@ -53,7 +53,7 @@ def create_db():
                 x2_coordinate FLOAT,
                 y2_coordinate FLOAT,
                 PRIMARY KEY (image_index, list_element_id),
-                FOREIGN KEY (image_index) REFERENCES images_tb(image_index)
+                FOREIGN KEY (image_index) REFERENCES images_tb(image_index) ON DELETE CASCADE
             );
             '''
 
@@ -224,3 +224,22 @@ def get_image_tags(image_index):
             conn.commit()
             close_connection(conn)
     return image_data
+
+
+def delete_image_by_index(image_index):
+    conn, cursor = connect_to_db()
+    if conn and cursor:
+        try:
+            cursor.execute('''
+                DELETE FROM images_tb
+                WHERE image_index = ?
+            ''', (image_index,))
+            conn.commit()
+        except sqlite3.Error as e:
+            print('Error deleting image')
+            print(f"SQLite error: {e}")
+            return False
+        finally:
+            close_connection(conn)
+        return True
+    return False

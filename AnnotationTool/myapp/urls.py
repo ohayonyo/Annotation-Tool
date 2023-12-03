@@ -3,7 +3,7 @@ from . import views
 from .service import save_image_tags
 from .service import register
 from .service import login
-from .service import get_images_of_user_service, get_image_tags_service
+from .service import get_images_of_user_service, get_image_tags_service, delete_image_by_index_service
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -18,5 +18,5 @@ urlpatterns = [
     path("<str:username>/my_tags/", views.user_tags_page, name="user_tags_page"),
     path("get_images_of_user_service/", get_images_of_user_service, name="get_images_of_user_service"),
     path("get_image_tags_service/", get_image_tags_service, name="get_image_tags_service"),
-
+    path("delete_image_by_index_service/", delete_image_by_index_service, name="delete_image_by_index_service"),
 ]

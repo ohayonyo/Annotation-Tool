@@ -22,8 +22,30 @@ function getTagsOfImage(image_index) {
 }
 
 function deleteImageTags(image_index) {
-  //TODO: need to implements
+  const deleteImageUrl = `http://127.0.0.1:8000/myapp/delete_image_by_index_service/?image_index=${image_index}`;
+  console.log('in delete function');
+  const csrfToken = getCookie('csrftoken');
+
+  fetch(deleteImageUrl, {
+    method: 'DELETE',
+    headers: {
+      'X-CSRFToken': csrfToken,
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Image deleted successfully', data);
+  })
+  .catch(error => {
+    console.error('Error deleting image', error);
+  });
 }
+
 
 function renderUserImages(images) {
   const imageListContainer = document.getElementById('imageList');
@@ -64,8 +86,9 @@ function renderUserImages(images) {
 
     deleteButton.addEventListener('click', function () {
       console.log('delete:',image.image_index);
-      elementDiv.style.display = 'none';
       deleteImageTags(image.image_index);
+      elementDiv.style.display = 'none';
+      
   });
 
     imageListContainer.appendChild(elementDiv);
@@ -107,6 +130,23 @@ function renderUserImages(images) {
 
   });
 }
+
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
 const currentUrl2 = window.location.href;
 const urlParts2 = currentUrl2.split('/');
 const username = urlParts2[3];

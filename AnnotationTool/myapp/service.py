@@ -3,7 +3,9 @@ from .buisness_layer import save_image_tags as save_image_tags_back
 from .buisness_layer import register as register_back
 from .buisness_layer import login as login_back
 from .buisness_layer import get_images_of_user as get_images_of_user_business
-from .buisness_layer import get_image_tags as get_image_tags_business
+from .buisness_layer import get_image_tags as get_image_tags_business, delete_image_by_index
+
+
 def save_image_tags(request):
     if request.method == 'POST':
         image_file = request.FILES.get('image')
@@ -42,4 +44,11 @@ def get_image_tags_service(request):
     if request.method == 'GET':
         image_index = request.GET.get('image_index')
         return get_image_tags_business(image_index)
+    return JsonResponse({'status': 'Invalid request method.'})
+
+
+def delete_image_by_index_service(request):
+    if request.method == 'DELETE':
+        image_index = request.GET.get('image_index')
+        return delete_image_by_index(image_index)
     return JsonResponse({'status': 'Invalid request method.'})
